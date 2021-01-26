@@ -22,7 +22,9 @@
           <h1 class="text-center mb-3">Users</h1>
           <ul class="list-group list-group-flush w-50" id="user_list">
             <% for(let user of users){ %>
-                <li class="list-group-item" id="<%=user._id%>"><%=user.email %></li>
+                <li class="list-group-item" id="<%=user._id%>"><%=user.email %>
+                     <button type="button" data-id="<%=user._id%>" class="btn btn-danger float-right remove_btn">x</button>
+                    </li>
           <% } %>
 
           </ul>
@@ -52,11 +54,21 @@
             .then(data=>{
                 $('#user_list').append(`<li class="list-group-item" id="${data.users._id}">
                     ${data.users.email}
+                    <button type="button" data-id="${data.users._id}" class="btn btn-danger float-right remove_btn">x</button>
                     </li>`) 
             })
             $('#register_form').trigger("reset");
         });
 
+$(document).on("click", ".remove_btn", function() {
+    let id = $(this).data('id')
+    fetch(`/register/${id}`,{
+		method:'delete',
+            }).then((res)=>res.json())
+            .then(data=>{
+             $(`#${data.id}`).remove()
+        });
+});
 
     </script>
 </body>

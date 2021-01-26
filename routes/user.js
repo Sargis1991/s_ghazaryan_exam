@@ -17,6 +17,10 @@ router.post('/register',async(req,res)=>{
     res.status(200).send({users:user})
 });
 
+router.delete('/register/:id',async(req,res)=>{
+   await User.findOneAndRemove({_id: req.params.id});
+   res.status(200).send({id:req.params.id})
+});
 
 
 module.exports = router
